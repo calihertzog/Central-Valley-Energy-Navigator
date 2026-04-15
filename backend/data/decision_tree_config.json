@@ -1,0 +1,83 @@
+{
+  "programs": [
+    {
+      "id": "care_program",
+      "name": "CARE (California Alternate Rates for Energy)",
+      "description": "A monthly discount of 20% or more on gas and electricity.",
+      "eligibility_rules": {
+        "categorical_eligible_programs": [
+          "CalFresh (Food Stamps)",
+          "Medi-Cal",
+          "SSI",
+          "WIC",
+          "LIHEAP",
+          "TANF"
+        ],
+        "income_limits": {
+          "1": 30880,
+          "2": 41760,
+          "3": 52640,
+          "4": 63520,
+          "5": 74400,
+          "6": 85280,
+          "7": 96160,
+          "8": 107040,
+          "additional_person_increment": 10880
+        }
+      }
+    },
+    {
+      "id": "fera_program",
+      "name": "FERA (Family Electric Rate Assistance)",
+      "description": "A monthly discount on electric bills for households of 3 or more.",
+      "eligibility_rules": {
+        "min_household_size": 3,
+        "income_limits": {
+          "3": 65800,
+          "4": 79400,
+          "5": 93000,
+          "6": 106600,
+          "7": 120200,
+          "8": 133800,
+          "additional_person_increment": 13600
+        }
+      }
+    }
+  ],
+  "survey_schema": {
+    "questions": [
+      {
+        "id": "provider",
+        "type": "select",
+        "label": "Who is your energy provider?",
+        "options": ["PG&E", "SCE", "SDG&E", "SoCalGas"]
+      },
+      {
+        "id": "household_size",
+        "type": "number",
+        "label": "How many people live in your household?",
+        "min": 1
+      },
+      {
+        "id": "gross_income",
+        "type": "number",
+        "label": "What is your total annual gross household income?",
+        "helper_text": "Before taxes"
+      },
+      {
+        "id": "public_assistance",
+        "type": "multiselect",
+        "label": "Are you or anyone in your household enrolled in any of these programs?",
+        "options": [
+          "CalFresh (Food Stamps)",
+          "Medi-Cal",
+          "SSI",
+          "WIC",
+          "LIHEAP",
+          "TANF",
+          "None"
+        ]
+      }
+    ]
+  }
+}

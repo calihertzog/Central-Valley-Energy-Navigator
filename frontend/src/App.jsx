@@ -1,121 +1,86 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from 'react';
+import Survey from './Survey';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isSurveyStarted, setIsSurveyStarted] = useState(false);
+  const [surveyResults, setSurveyResults] = useState(null);
+
+  // This will handle the final data once the user finishes all 10 questions
+// Change this function to be async
+  const handleSurveyComplete = async (data) => {
+    console.log("Final User Data:", data);
+    setSurveyResults(data); // Show the results on the screen immediately
+
+    try {
+      // Send the POST request to your Python backend
+      const response = await fetch("http://localhost:8000/api/save-survey", {
+        method: "POST", // Specify the HTTP method
+        headers: {
+          "Content-Type": "application/json", // Tell the backend we are sending JSON
+        },
+        body: JSON.stringify(data), // Convert the JavaScript object to a JSON string
+      });
+
+      // Check if the backend received it successfully
+      if (response.ok) {
+        const backendMessage = await response.json();
+        console.log("Success from Python:", backendMessage);
+      } else {
+        console.error("Backend returned an error. Status:", response.status);
+      }
+    } catch (error) {
+      // This catches network errors (e.g., if your Python server isn't running)
+      console.error("Error connecting to the backend:", error);
+    }
+  };
+
+  if (surveyResults) {
+    return (
+      <main className="container center-content">
+        <h2>Eligibility Results</h2>
+        <p>Based on your answers, here are your matched programs...</p>
+        <pre style={{textAlign: 'left'}}>{JSON.stringify(surveyResults, null, 2)}</pre>
+        <button className="secondary-btn" onClick={() => {
+          setSurveyResults(null);
+          setIsSurveyStarted(false);
+        }}>
+          Start Over
+        </button>
+      </main>
+    );
+  }
+
+  if (isSurveyStarted) {
+    return (
+      <Survey 
+        onCancel={() => setIsSurveyStarted(false)} 
+        onComplete={handleSurveyComplete} 
+      />
+    );
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <main className="container center-content">
+      <header>
+        <h1>San Joaquin Valley Energy Assistance Navigator</h1>
+      </header>
+      
+      <section className="intro-text">
+        <p>
+          Kern and Tulare counties have some of the highest energy rates in the U.S. 
+          Fortunately, California offers numerous subsidy programs to help reduce energy costs and support clean energy adoption.
+        </p>
+        <p>
+          Answer a few simple questions about your household to discover which utility, state, and regional programs you may qualify for.
+        </p>
       </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <button className="primary-btn" onClick={() => setIsSurveyStarted(true)}>
+        Begin Survey
+      </button>
+    </main>
+  );
 }
 
-export default App
+export default App;
