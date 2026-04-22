@@ -1,28 +1,26 @@
 import { useState } from 'react';
 import Survey from './Survey';
+import logo from './assets/logo.png'; // Make sure the logo is in src/assets/
 import './App.css';
 
 function App() {
   const [isSurveyStarted, setIsSurveyStarted] = useState(false);
   const [surveyResults, setSurveyResults] = useState(null);
 
-  // This will handle the final data once the user finishes all 10 questions
-// Change this function to be async
+  // Handle final data and send to Python backend
   const handleSurveyComplete = async (data) => {
     console.log("Final User Data:", data);
-    setSurveyResults(data); // Show the results on the screen immediately
+    setSurveyResults(data);
 
     try {
-      // Send the POST request to your Python backend
       const response = await fetch("http://localhost:8000/api/save-survey", {
-        method: "POST", // Specify the HTTP method
+        method: "POST",
         headers: {
-          "Content-Type": "application/json", // Tell the backend we are sending JSON
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data), // Convert the JavaScript object to a JSON string
+        body: JSON.stringify(data),
       });
 
-      // Check if the backend received it successfully
       if (response.ok) {
         const backendMessage = await response.json();
         console.log("Success from Python:", backendMessage);
@@ -30,7 +28,6 @@ function App() {
         console.error("Backend returned an error. Status:", response.status);
       }
     } catch (error) {
-      // This catches network errors (e.g., if your Python server isn't running)
       console.error("Error connecting to the backend:", error);
     }
   };
@@ -38,9 +35,12 @@ function App() {
   if (surveyResults) {
     return (
       <main className="container center-content">
-        <h2>Eligibility Results</h2>
+        <img src={logo} alt="CRPE Logo" className="brand-logo" />
+        <h2 style={{ color: '#244D73' }}>Eligibility Results</h2>
         <p>Based on your answers, here are your matched programs...</p>
-        <pre style={{textAlign: 'left'}}>{JSON.stringify(surveyResults, null, 2)}</pre>
+        <pre style={{ textAlign: 'left', background: '#ffffffff', padding: '1rem', borderRadius: '8px' }}>
+          {JSON.stringify(surveyResults, null, 2)}
+        </pre>
         <button className="secondary-btn" onClick={() => {
           setSurveyResults(null);
           setIsSurveyStarted(false);
@@ -51,19 +51,26 @@ function App() {
     );
   }
 
-  if (isSurveyStarted) {
-    return (
+if (isSurveyStarted) {
+  return (
+    <div className="container survey-active"> 
+      <header style={{ textAlign: 'center', marginTop: '1rem' }}>
+        <img src={logo} alt="CRPE Logo" className="brand-logo" />
+      </header>
       <Survey 
         onCancel={() => setIsSurveyStarted(false)} 
         onComplete={handleSurveyComplete} 
       />
-    );
-  }
+    </div>
+  );
+}
 
   return (
     <main className="container center-content">
       <header>
-        <h1>San Joaquin Valley Energy Assistance Navigator</h1>
+        {/* CRPE Logo at the very top */}
+        <img src={logo} alt="CRPE Logo" className="brand-logo" />
+        <h1 style={{ color: '#244D73' }}>San Joaquin Valley Energy Assistance Navigator </h1>
       </header>
       
       <section className="intro-text">
