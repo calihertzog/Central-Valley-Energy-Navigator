@@ -8,12 +8,14 @@ function App() {
   const [surveyResults, setSurveyResults] = useState(null);
 
   // Handle final data and send to Python backend
+// Handle final data and send to Python backend
   const handleSurveyComplete = async (data) => {
     console.log("Final User Data:", data);
     setSurveyResults(data);
 
     try {
-      const response = await fetch("http://localhost:8000/api/save-survey", {
+      // Replaced localhost with the Vite environment variable
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/save-survey`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

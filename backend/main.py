@@ -9,9 +9,9 @@ app = FastAPI()
 # This allows your React frontend to communicate with this backend.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"], # Add your React app's URL
+    allow_origins=["https://central-valley-energy-navigator.vercel.app"], # Your exact Vercel URL
     allow_credentials=True,
-    allow_methods=["*"], # Allows GET, POST, etc.
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
