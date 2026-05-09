@@ -55,7 +55,7 @@ function App() {
 if (isSurveyStarted) {
   return (
     <div className="container survey-active"> 
-      <header style={{ textAlign: 'center', marginTop: '0' }}>
+      <header style={{ textAlign: 'center' }}>
         <img src={logo} alt="CRPE Logo" className="brand-logo" />
       </header>
       <Survey 

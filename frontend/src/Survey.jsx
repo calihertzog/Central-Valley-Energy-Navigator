@@ -49,7 +49,7 @@ export default function Survey({ onCancel, onComplete }) {
   };
 
   return (
-    <div className="container center-content">
+    <div className="survey-container">
       <div className="progress-tracker">
         <p>Question {currentIndex + 1} of {questions.length}</p>
       </div>
