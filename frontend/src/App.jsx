@@ -38,7 +38,7 @@ function App() {
       <main className="container center-content">
         <img src={logo} alt="CRPE Logo" className="brand-logo" />
         <h2 style={{ color: '#244D73' }}>Eligibility Results</h2>
-        <p>Based on your answers, here are your matched programs:</p>
+        <p>Based on your answers, we recommend applying for the following programs:</p>
         <pre style={{ textAlign: 'left', background: '#ffffffff', padding: '1rem', borderRadius: '8px' }}>
           {JSON.stringify(surveyResults, null, 2)}
         </pre>
@@ -80,7 +80,7 @@ if (isSurveyStarted) {
           Fortunately, California offers numerous subsidy programs to help reduce energy costs and support clean energy adoption.
         </p>
         <p>
-          Answer a few simple questions about your household to discover which utility, state, and regional programs you may qualify for.
+          Answer a few simple questions about your household to discover which regional programs you may qualify for.
         </p>
       </section>
 
