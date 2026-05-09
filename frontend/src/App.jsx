@@ -7,7 +7,6 @@ function App() {
   const [isSurveyStarted, setIsSurveyStarted] = useState(false);
   const [surveyResults, setSurveyResults] = useState(null);
 
-  // Handle final data and send to Python backend
 // Handle final data and send to Python backend
   const handleSurveyComplete = async (data) => {
     console.log("Final User Data:", data);
@@ -56,7 +55,7 @@ function App() {
 if (isSurveyStarted) {
   return (
     <div className="container survey-active"> 
-      <header style={{ textAlign: 'center', marginTop: '1rem' }}>
+      <header style={{ textAlign: 'center', marginTop: '0' }}>
         <img src={logo} alt="CRPE Logo" className="brand-logo" />
       </header>
       <Survey 
