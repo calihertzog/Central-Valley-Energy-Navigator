@@ -39,7 +39,7 @@ function App() {
       <main className="container center-content">
         <img src={logo} alt="CRPE Logo" className="brand-logo" />
         <h2 style={{ color: '#244D73' }}>Eligibility Results</h2>
-        <p>Based on your answers, here are your matched programs...</p>
+        <p>Based on your answers, here are your matched programs:</p>
         <pre style={{ textAlign: 'left', background: '#ffffffff', padding: '1rem', borderRadius: '8px' }}>
           {JSON.stringify(surveyResults, null, 2)}
         </pre>
