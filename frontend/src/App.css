@@ -25,7 +25,7 @@
   align-items: center;
   justify-content: flex-start !important; /* Forces content to start at the top */
   min-height: 100vh;
-  padding-top: 2rem; /* Constant distance from the very top of the browser */
+  padding-top: 2.5rem; /* Constant distance from the very top of the browser */
   text-align: center;
 }
 
@@ -36,7 +36,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
 }
 
 h1 {
@@ -102,7 +102,7 @@ button {
 
 /* Logo size specifically when survey is active */
 .survey-active .brand-logo {
-  max-width: 300px; 
+  max-width: 350px; 
   margin: 0; /* Margin is now handled by the fixed header block */
   display: block;
 }
