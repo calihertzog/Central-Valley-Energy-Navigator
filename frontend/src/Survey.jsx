@@ -8,6 +8,11 @@ const questions = [
     options: ['Kern County', 'Tulare County', 'Other']
   },
   {
+    id: 'size',
+    text: 'How many persons in your household?',
+    options: ['1-2', '3', '4', '5', '6', '7', '8', 'more than 8']
+  },
+  {
     id: 'utility',
     text: 'Who is your primary utility provider?',
     options: ['PG&E', 'Southern California Edison (SCE)', 'SoCalGas', 'Other / Unsure']
@@ -15,7 +20,12 @@ const questions = [
   {
     id: 'income',
     text: 'What is your approximate annual household income?',
-    options: ['Under $35,000', '$35,000 - $50,000', '$50,000 - $75,000', 'Over $75,000']
+    options: ['Under $42,000', '$42,000 - $53,000', '$53,000 - $64,000', '$64,000 - $75,000', '$75,000 - $84,000', '$84,000 - $97,000', '$97,000 - $108,000', 'Over $108,000']
+  },
+  {
+    id: 'assistance',
+    text: 'Are you enrolled in any of the following programs? Medicaid/Medi-Cal, Women, Infants, and Children Program (WIC), Healthy Families A & B, National School Lunch Program (NSLP)-Free Lunch, Food Stamps/SNAP, Low Income Home Energy Assistance Program (LIHEAP), Head Start Income Eligible (Tribal Only), Supplemental Security Income (SSI), Bureau of Indian Affairs General Assistance, Temporary Assistance for Needy Families (TANF) or Tribal TANF',
+    options: ['Yes', 'No']
   }
 ];
 
