@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+// Here we define the questions. You can easily add more to this array later.
 const questions = [
   {
     id: 'county',
@@ -24,7 +25,7 @@ const questions = [
   {
     id: 'assistance',
     text: 'Are you enrolled in any of the following programs? (Select all that apply)',
-    type: 'checkbox',
+    type: 'checkbox', // Added this flag to render Option 2
     options: [
       "Medicaid/Medi-Cal",
       "Women, Infants, and Children Program (WIC)",
@@ -47,9 +48,11 @@ export default function Survey({ onCancel, onComplete }) {
   const currentQuestion = questions[currentIndex];
 
   const handleSelect = (option) => {
+    // Update the answers object with the selection for the current question ID
     setAnswers({ ...answers, [currentQuestion.id]: option });
   };
 
+  // New handler specifically for checkbox arrays
   const handleCheckboxToggle = (option) => {
     const currentSelections = answers[currentQuestion.id] || [];
     let newSelections;
@@ -67,6 +70,7 @@ export default function Survey({ onCancel, onComplete }) {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
+      // If it's the last question, send the collected data back up to App.jsx
       onComplete(answers);
     }
   };
@@ -75,10 +79,13 @@ export default function Survey({ onCancel, onComplete }) {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     } else {
+      // If on the first question, go back to the Home screen
       onCancel();
     }
   };
 
+  // Determine if we can move forward. 
+  // If it's a checkbox, we allow empty arrays (meaning "None"). Otherwise, require an answer.
   const isNextDisabled = currentQuestion.type === 'checkbox' 
     ? false 
     : !answers[currentQuestion.id];
@@ -86,49 +93,25 @@ export default function Survey({ onCancel, onComplete }) {
   return (
     <div className="survey-container">
       <div className="progress-tracker">
-        <p style={{ textTransform: 'uppercase', letterSpacing: '1px', color: '#666' }}>
-          Question {currentIndex + 1} of {questions.length}
-        </p>
+        <p>Question {currentIndex + 1} of {questions.length}</p>
       </div>
 
       <h2 className="question-text">{currentQuestion.text}</h2>
 
+      {/* Conditionally render based on the question type */}
       {currentQuestion.type === 'checkbox' ? (
-        // Replaced Tailwind with inline flexbox styling
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '16px', 
-          textAlign: 'left', 
-          margin: '20px auto', 
-          maxWidth: '650px',
-          fontSize: '1.15rem', // Makes the font larger and more readable
-          color: '#333'
-        }}>
+        <div className="flex flex-col space-y-3 mt-4 text-left">
           {currentQuestion.options.map((option) => {
             const isChecked = (answers[currentQuestion.id] || []).includes(option);
             return (
-              <label 
-                key={option} 
-                style={{ 
-                  display: 'flex', 
-                  alignItems: 'flex-start', 
-                  gap: '12px', 
-                  cursor: 'pointer',
-                  lineHeight: '1.4'
-                }}
-              >
+              <label key={option} className="flex items-center space-x-3 cursor-pointer">
                 <input 
                   type="checkbox" 
                   checked={isChecked}
                   onChange={() => handleCheckboxToggle(option)}
-                  style={{ 
-                    marginTop: '4px', 
-                    transform: 'scale(1.4)', // Scales up the checkbox to match the larger text
-                    cursor: 'pointer' 
-                  }} 
+                  className="form-checkbox h-5 w-5 text-blue-600"
                 />
-                <span>{option}</span>
+                <span className="text-gray-800">{option}</span>
               </label>
             );
           })}
