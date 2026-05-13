@@ -1,6 +1,18 @@
 import { useState } from 'react';
 
-// Here we define the questions. You can easily add more to this array later.
+const programs = [
+    "Medicaid/Medi-Cal",
+    "Women, Infants, and Children Program (WIC)",
+    "Healthy Families A & B",
+    "National School Lunch Program (NSLP) - Free Lunch",
+    "Food Stamps/SNAP",
+    "Low Income Home Energy Assistance Program (LIHEAP)",
+    "Head Start Income Eligible (Tribal Only)",
+    "Supplemental Security Income (SSI)",
+    "Bureau of Indian Affairs General Assistance",
+    "Temporary Assistance for Needy Families (TANF) or Tribal TANF"
+];
+
 const questions = [
   {
     id: 'county',
@@ -24,7 +36,7 @@ const questions = [
   },
   {
     id: 'assistance',
-    text: 'Are you enrolled in any of the following programs? Medicaid/Medi-Cal, Women, Infants, and Children Program (WIC), Healthy Families A & B, National School Lunch Program (NSLP)-Free Lunch, Food Stamps/SNAP, Low Income Home Energy Assistance Program (LIHEAP), Head Start Income Eligible (Tribal Only), Supplemental Security Income (SSI), Bureau of Indian Affairs General Assistance, Temporary Assistance for Needy Families (TANF) or Tribal TANF',
+    text: 'Are you enrolled in any of the following programs?',
     options: ['Yes', 'No']
   }
 ];
@@ -65,6 +77,16 @@ export default function Survey({ onCancel, onComplete }) {
       </div>
 
       <h2 className="question-text">{currentQuestion.text}</h2>
+
+      {currentQuestion.id === 'assistance' && (
+        <ul className="programs-list">
+          {programs.map((program, index) => (
+            <li key={index} className="program-item">
+              {program}
+            </li>
+          ))}
+        </ul>
+      )}
 
       <div className="options-grid">
         {currentQuestion.options.map((option) => (
