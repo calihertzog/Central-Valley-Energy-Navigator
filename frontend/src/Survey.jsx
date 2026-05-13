@@ -43,6 +43,7 @@ const questions = [
 export default function Survey({ onCancel, onComplete }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const currentQuestion = questions[currentIndex];
 
@@ -52,31 +53,42 @@ export default function Survey({ onCancel, onComplete }) {
 
   const handleCheckboxToggle = (option) => {
     const currentSelections = answers[currentQuestion.id] || [];
-    let newSelections;
-    
-    if (currentSelections.includes(option)) {
-      newSelections = currentSelections.filter(item => item !== option);
-    } else {
-      newSelections = [...currentSelections, option];
-    }
-    
+    let newSelections = currentSelections.includes(option)
+      ? currentSelections.filter(item => item !== option)
+      : [...currentSelections, option];
     setAnswers({ ...answers, [currentQuestion.id]: newSelections });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      onComplete(answers);
+      setIsLoading(true);
+      try {
+
+        const BACKEND_URL = "https://central-valley-energy-navigator.onrender.com";
+        
+        const response = await fetch(`${BACKEND_URL}/api/evaluate-eligibility`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(answers),
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch results');
+
+        const result = await response.json();
+        onComplete(result); 
+      } catch (error) {
+        console.error("Error:", error);
+        alert("The server is waking up. Please wait a few seconds and try clicking 'See Results' again.");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    } else {
-      onCancel();
-    }
+    currentIndex > 0 ? setCurrentIndex(currentIndex - 1) : onCancel();
   };
 
   const isNextDisabled = currentQuestion.type === 'checkbox' 
@@ -94,45 +106,18 @@ export default function Survey({ onCancel, onComplete }) {
       <h2 className="question-text">{currentQuestion.text}</h2>
 
       {currentQuestion.type === 'checkbox' ? (
-        // Replaced Tailwind with inline flexbox styling
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '16px', 
-          textAlign: 'left', 
-          margin: '20px auto', 
-          maxWidth: '650px',
-          fontSize: '1.15rem', // Makes the font larger and more readable
-          color: '#333'
-        }}>
-          {currentQuestion.options.map((option) => {
-            const isChecked = (answers[currentQuestion.id] || []).includes(option);
-            return (
-              <label 
-                key={option} 
-                style={{ 
-                  display: 'flex', 
-                  alignItems: 'flex-start', 
-                  gap: '12px', 
-                  cursor: 'pointer',
-                  lineHeight: '1.4'
-                }}
-              >
-                <input 
-                  type="checkbox" 
-                  checked={isChecked}
-                  onChange={() => handleCheckboxToggle(option)}
-                  style={{ 
-                    marginTop: '4px', 
-                    transform: 'scale(1.8)', // Scales up the checkbox to match the larger text
-                    cursor: 'pointer',
-                    accentColor: '#4A8B39'
-                  }} 
-                />
-                <span>{option}</span>
-              </label>
-            );
-          })}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left', margin: '20px auto', maxWidth: '650px', fontSize: '1.15rem', color: '#333' }}>
+          {currentQuestion.options.map((option) => (
+            <label key={option} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', lineHeight: '1.4' }}>
+              <input 
+                type="checkbox" 
+                checked={(answers[currentQuestion.id] || []).includes(option)}
+                onChange={() => handleCheckboxToggle(option)}
+                style={{ marginTop: '4px', transform: 'scale(1.6)', cursor: 'pointer', accentColor: '#4A8B39' }} 
+              />
+              <span>{option}</span>
+            </label>
+          ))}
         </div>
       ) : (
         <div className="options-grid">
@@ -149,15 +134,11 @@ export default function Survey({ onCancel, onComplete }) {
       )}
 
       <div className="nav-buttons">
-        <button className="secondary-btn" onClick={handlePrev}>
+        <button className="secondary-btn" onClick={handlePrev} disabled={isLoading}>
           {currentIndex === 0 ? 'Back to Home' : 'Previous'}
         </button>
-        <button 
-          className="primary-btn" 
-          onClick={handleNext}
-          disabled={isNextDisabled} 
-        >
-          {currentIndex === questions.length - 1 ? 'See Results' : 'Next'}
+        <button className="primary-btn" onClick={handleNext} disabled={isNextDisabled || isLoading}>
+          {isLoading ? 'Processing...' : (currentIndex === questions.length - 1 ? 'See Results' : 'Next')}
         </button>
       </div>
     </div>
