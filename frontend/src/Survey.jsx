@@ -124,7 +124,7 @@ export default function Survey({ onCancel, onComplete }) {
                   onChange={() => handleCheckboxToggle(option)}
                   style={{ 
                     marginTop: '4px', 
-                    transform: 'scale(2.0)', // Scales up the checkbox to match the larger text
+                    transform: 'scale(1.8)', // Scales up the checkbox to match the larger text
                     cursor: 'pointer',
                     accentColor: '#4A8B39'
                   }} 
