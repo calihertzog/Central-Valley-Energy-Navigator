@@ -190,3 +190,9 @@ button:disabled {
   margin-top: 0; 
   width: 100%;
 }
+
+.programs-list {
+  list-style-type: none; /* Removes the bullet points */
+  padding-left: 0;       /* Removes the default left indentation */
+  margin-top: 15px;      /* Optional: Adds a little breathing room above the list */
+}
