@@ -68,10 +68,15 @@ export default function Survey({ onCancel, onComplete }) {
 
         const BACKEND_URL = "https://central-valley-energy-navigator.onrender.com";
         
+        const payload = {
+          ...answers,
+          assistance: answers.assistance || []
+        };
+
         const response = await fetch(`${BACKEND_URL}/api/evaluate-eligibility`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(answers),
+          body: JSON.stringify(payload),
         });
 
         if (!response.ok) throw new Error('Failed to fetch results');

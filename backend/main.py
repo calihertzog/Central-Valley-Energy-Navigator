@@ -23,7 +23,7 @@ class SurveyResults(BaseModel):
     size: str
     utility: str
     income: str
-    assistance: List[str]
+    assistance: List[str] = []
 
 @app.post("/api/evaluate-eligibility")
 async def evaluate_eligibility(results: SurveyResults):

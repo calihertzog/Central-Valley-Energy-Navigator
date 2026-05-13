@@ -87,7 +87,7 @@ function App() {
           California offers subsidy programs like <strong>CARE</strong> and <strong>FERA</strong> to help reduce your monthly bills.
         </p>
         <p>
-          Take 60 seconds to answer a few questions and see if you qualify for a discount of up to 35%.
+          Take our brief survey to see if you qualify for a discount of up to 35%.
         </p>
       </section>
 
