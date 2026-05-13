@@ -75,7 +75,7 @@ async def evaluate_eligibility(results: SurveyResults):
             "eligible": True,
             "program": "FERA",
             "message": "You qualify for the FERA program!",
-            "discount": "18% discount on your electric bill."
+            "discount": "potential 18% discount on your electric bill."
         }
 
     # 5. Ineligible

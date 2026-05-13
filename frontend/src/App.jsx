@@ -83,11 +83,11 @@ function App() {
       
       <section className="intro-text">
         <p>
-          Kern and Tulare counties have some of the highest energy rates in the U.S. 
+          Kern and Tulare counties have some of the highest energy rates in the United States. 
           California offers subsidy programs like <strong>CARE</strong> and <strong>FERA</strong> to help reduce your monthly bills.
         </p>
         <p>
-          Take our brief survey to see if you qualify for a discount of up to 35%.
+          Take the survey to see if you qualify for a discount of up to 35%.
         </p>
       </section>
 
