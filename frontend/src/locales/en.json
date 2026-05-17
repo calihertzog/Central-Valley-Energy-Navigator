@@ -1,5 +1,54 @@
 {
-  "welcome": "Welcome to the Dashboard",
-  "surveyLink": "Take the Survey",
-  "switchLang": "Español"
+  "app": {
+    "title": "San Joaquin Valley Energy Assistance Navigator",
+    "intro1": "Kern and Tulare counties have some of the highest energy rates in the United States. California offers subsidy programs like <1>CARE</1> and <3>FERA</3> to help reduce your monthly bills.",
+    "intro2": "Take the survey to see if you qualify for a discount of up to 35%.",
+    "begin": "Begin Survey",
+    "eligible": "You're Eligible!",
+    "complete": "Evaluation Complete",
+    "benefit": "Benefit:",
+    "apply": "Apply Now",
+    "startOver": "Start Over"
+  },
+  "survey": {
+    "progress": "Question {{current}} of {{total}}",
+    "backToHome": "Back to Home",
+    "previous": "Previous",
+    "next": "Next",
+    "seeResults": "See Results",
+    "processing": "Processing...",
+    "alert": "The server is waking up. Please wait a few seconds and try clicking 'See Results' again.",
+    "q_county": {
+      "text": "Which county do you live in?",
+      "kern": "Kern County",
+      "tulare": "Tulare County",
+      "other": "Other"
+    },
+    "q_size": {
+      "text": "How many persons in your household?",
+      "moreThan8": "more than 8"
+    },
+    "q_utility": {
+      "text": "Who is your primary utility provider?",
+      "other": "Other / Unsure"
+    },
+    "q_income": {
+      "text": "What is your approximate annual household income?",
+      "under": "Under $42,300",
+      "over": "Over $108,300"
+    },
+    "q_assistance": {
+      "text": "Are you enrolled in any of the following programs? (Select all that apply)",
+      "mediCal": "Medicaid/Medi-Cal",
+      "wic": "Women, Infants, and Children Program (WIC)",
+      "healthyFamilies": "Healthy Families A & B",
+      "nslp": "National School Lunch Program (NSLP) - Free Lunch",
+      "snap": "Food Stamps/SNAP",
+      "liheap": "Low Income Home Energy Assistance Program (LIHEAP)",
+      "headStart": "Head Start Income Eligible (Tribal Only)",
+      "ssi": "Supplemental Security Income (SSI)",
+      "bia": "Bureau of Indian Affairs General Assistance",
+      "tanf": "Temporary Assistance for Needy Families (TANF) or Tribal TANF"
+    }
+  }
 }

@@ -10,10 +10,10 @@ i18n
       en: { translation: enTranslations },
       es: { translation: esTranslations }
     },
-    lng: 'en', // Default language
+    lng: 'en', // Default language on load
     fallbackLng: 'en',
     interpolation: {
-      escapeValue: false // React already escapes values to prevent XSS
+      escapeValue: false 
     }
   });
 

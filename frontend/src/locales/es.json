@@ -1,5 +1,54 @@
 {
-  "welcome": "Bienvenido al Panel de Control",
-  "surveyLink": "Tomar la Encuesta",
-  "switchLang": "English"
+  "app": {
+    "title": "Navegador de Asistencia Energética del Valle de San Joaquín",
+    "intro1": "Los condados de Kern y Tulare tienen algunas de las tarifas de energía más altas de los Estados Unidos. California ofrece programas de subsidio como <1>CARE</1> y <3>FERA</3> para ayudar a reducir sus facturas mensuales.",
+    "intro2": "Complete la encuesta para ver si califica para un descuento de hasta el 35%.",
+    "begin": "Comenzar Encuesta",
+    "eligible": "¡Eres Elegible!",
+    "complete": "Evaluación Completa",
+    "benefit": "Beneficio:",
+    "apply": "Aplicar Ahora",
+    "startOver": "Empezar de Nuevo"
+  },
+  "survey": {
+    "progress": "Pregunta {{current}} de {{total}}",
+    "backToHome": "Volver al Inicio",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "seeResults": "Ver Resultados",
+    "processing": "Procesando...",
+    "alert": "El servidor se está iniciando. Por favor espere unos segundos e intente hacer clic en 'Ver Resultados' nuevamente.",
+    "q_county": {
+      "text": "¿En qué condado vive?",
+      "kern": "Condado de Kern",
+      "tulare": "Condado de Tulare",
+      "other": "Otro"
+    },
+    "q_size": {
+      "text": "¿Cuántas personas hay en su hogar?",
+      "moreThan8": "más de 8"
+    },
+    "q_utility": {
+      "text": "¿Quién es su proveedor principal de servicios públicos?",
+      "other": "Otro / No estoy seguro"
+    },
+    "q_income": {
+      "text": "¿Cuál es el ingreso anual aproximado de su hogar?",
+      "under": "Menos de $42,300",
+      "over": "Más de $108,300"
+    },
+    "q_assistance": {
+      "text": "¿Está inscrito en alguno de los siguientes programas? (Seleccione todos los que correspondan)",
+      "mediCal": "Medicaid/Medi-Cal",
+      "wic": "Programa para Mujeres, Bebés y Niños (WIC)",
+      "healthyFamilies": "Familias Saludables A y B",
+      "nslp": "Programa Nacional de Almuerzos Escolares (NSLP) - Almuerzo Gratis",
+      "snap": "Cupones de Alimentos/SNAP",
+      "liheap": "Programa de Asistencia de Energía para Hogares de Bajos Ingresos (LIHEAP)",
+      "headStart": "Head Start Elegible por Ingresos (Solo Tribal)",
+      "ssi": "Seguridad de Ingreso Suplementario (SSI)",
+      "bia": "Asistencia General de la Oficina de Asuntos Indígenas",
+      "tanf": "Asistencia Temporal para Familias Necesitadas (TANF) o TANF Tribal"
+    }
+  }
 }
