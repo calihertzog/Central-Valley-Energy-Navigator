@@ -11,7 +11,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://central-valley-energy-navigator.vercel.app",
-        "http://localhost:3000"
+        "http://localhost:3000",
+        "http://localhost:5173" # Added Vite default port just in case!
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -32,8 +33,8 @@ async def evaluate_eligibility(results: SurveyResults):
         return {
             "eligible": True,
             "program": "CARE",
-            "message": "You qualify for CARE through your enrollment in public assistance programs!",
-            "discount": "30-35% on electric and 20% on gas."
+            "messageKey": "care_assistance_msg",
+            "discountKey": "care_discount"
         }
 
     # 2. Income Mapping
@@ -59,8 +60,8 @@ async def evaluate_eligibility(results: SurveyResults):
         return {
             "eligible": True,
             "program": "CARE",
-            "message": "Based on your income and household size, you qualify for CARE!",
-            "discount": "30-35% on electric and 20% on gas."
+            "messageKey": "care_income_msg",
+            "discountKey": "care_discount"
         }
 
     # 4. FERA Income Limits (HHS of 3+ and specific electric utilities)
@@ -74,16 +75,16 @@ async def evaluate_eligibility(results: SurveyResults):
         return {
             "eligible": True,
             "program": "FERA",
-            "message": "You qualify for the FERA program!",
-            "discount": "potential 18% discount on your electric bill."
+            "messageKey": "fera_income_msg",
+            "discountKey": "fera_discount"
         }
 
     # 5. Ineligible
     return {
         "eligible": False,
         "program": None,
-        "message": "You may not qualify for CARE or FERA based on the current income guidelines.",
-        "discount": None
+        "messageKey": "ineligible_msg",
+        "discountKey": None
     }
 
 if __name__ == "__main__":

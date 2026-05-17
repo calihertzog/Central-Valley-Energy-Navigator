@@ -52,11 +52,12 @@ function App() {
           className="results-card" 
           style={{ borderLeft: `8px solid ${surveyResults.eligible ? '#4A8B39' : '#ccc'}` }}
         >
-          <p>{surveyResults.message}</p>
+          {/* We now pass the key from the backend into the translation function */}
+          <p>{t(`results.${surveyResults.messageKey}`)}</p>
           
-          {surveyResults.discount && (
+          {surveyResults.discountKey && (
             <div className="benefit-tag">
-              <strong>{t('app.benefit')}</strong> {surveyResults.discount}
+              <strong>{t('app.benefit')}</strong> {t(`results.${surveyResults.discountKey}`)}
             </div>
           )}
         </div>

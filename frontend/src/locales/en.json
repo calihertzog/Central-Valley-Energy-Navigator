@@ -49,6 +49,14 @@
       "ssi": "Supplemental Security Income (SSI)",
       "bia": "Bureau of Indian Affairs General Assistance",
       "tanf": "Temporary Assistance for Needy Families (TANF) or Tribal TANF"
+    },
+    "results": {
+    "care_assistance_msg": "You qualify for CARE through your enrollment in public assistance programs!",
+    "care_income_msg": "Based on your income and household size, you qualify for CARE!",
+    "care_discount": "30-35% on electric and 20% on gas.",
+    "fera_income_msg": "You qualify for the FERA program!",
+    "fera_discount": "potential 18% discount on your electric bill.",
+    "ineligible_msg": "You may not qualify for CARE or FERA based on the current income guidelines."
     }
   }
 }
