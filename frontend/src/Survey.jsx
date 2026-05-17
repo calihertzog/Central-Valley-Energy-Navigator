@@ -1,61 +1,90 @@
 import { useState } from 'react';
-
-const questions = [
-  {
-    id: 'county',
-    text: 'Which county do you live in?',
-    options: ['Kern County', 'Tulare County', 'Other']
-  },
-  {
-    id: 'size',
-    text: 'How many persons in your household?',
-    options: ['1-2', '3', '4', '5', '6', '7', '8', 'more than 8']
-  },
-  {
-    id: 'utility',
-    text: 'Who is your primary utility provider?',
-    options: ['PG&E', 'Southern California Edison (SCE)', 'SoCalGas', 'Other / Unsure']
-  },
-  {
-    id: 'income',
-    text: 'What is your approximate annual household income?',
-    options: ['Under $42,300', '$42,300 - $53,300', '$53,300 - $64,300', '$64,300 - $75,300', '$75,300 - $86,300', '$86,300 - $97,300', '$97,300 - $108,300', 'Over $108,300']
-  },
-  {
-    id: 'assistance',
-    text: 'Are you enrolled in any of the following programs? (Select all that apply)',
-    type: 'checkbox',
-    options: [
-      "Medicaid/Medi-Cal",
-      "Women, Infants, and Children Program (WIC)",
-      "Healthy Families A & B",
-      "National School Lunch Program (NSLP) - Free Lunch",
-      "Food Stamps/SNAP",
-      "Low Income Home Energy Assistance Program (LIHEAP)",
-      "Head Start Income Eligible (Tribal Only)",
-      "Supplemental Security Income (SSI)",
-      "Bureau of Indian Affairs General Assistance",
-      "Temporary Assistance for Needy Families (TANF) or Tribal TANF"
-    ]
-  }
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Survey({ onCancel, onComplete }) {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  const questions = [
+    {
+      id: 'county',
+      text: t('survey.q_county.text'),
+      options: [
+        { value: 'Kern County', label: t('survey.q_county.kern') },
+        { value: 'Tulare County', label: t('survey.q_county.tulare') },
+        { value: 'Other', label: t('survey.q_county.other') }
+      ]
+    },
+    {
+      id: 'size',
+      text: t('survey.q_size.text'),
+      options: [
+        { value: '1-2', label: '1-2' },
+        { value: '3', label: '3' },
+        { value: '4', label: '4' },
+        { value: '5', label: '5' },
+        { value: '6', label: '6' },
+        { value: '7', label: '7' },
+        { value: '8', label: '8' },
+        { value: 'more than 8', label: t('survey.q_size.moreThan8') }
+      ]
+    },
+    {
+      id: 'utility',
+      text: t('survey.q_utility.text'),
+      options: [
+        { value: 'PG&E', label: 'PG&E' },
+        { value: 'Southern California Edison (SCE)', label: 'Southern California Edison (SCE)' },
+        { value: 'SoCalGas', label: 'SoCalGas' },
+        { value: 'Other / Unsure', label: t('survey.q_utility.other') }
+      ]
+    },
+    {
+      id: 'income',
+      text: t('survey.q_income.text'),
+      options: [
+        { value: 'Under $42,300', label: t('survey.q_income.under') },
+        { value: '$42,300 - $53,300', label: '$42,300 - $53,300' },
+        { value: '$53,300 - $64,300', label: '$53,300 - $64,300' },
+        { value: '$64,300 - $75,300', label: '$64,300 - $75,300' },
+        { value: '$75,300 - $86,300', label: '$75,300 - $86,300' },
+        { value: '$86,300 - $97,300', label: '$86,300 - $97,300' },
+        { value: '$97,300 - $108,300', label: '$97,300 - $108,300' },
+        { value: 'Over $108,300', label: t('survey.q_income.over') }
+      ]
+    },
+    {
+      id: 'assistance',
+      text: t('survey.q_assistance.text'),
+      type: 'checkbox',
+      options: [
+        { value: "Medicaid/Medi-Cal", label: t('survey.q_assistance.mediCal') },
+        { value: "Women, Infants, and Children Program (WIC)", label: t('survey.q_assistance.wic') },
+        { value: "Healthy Families A & B", label: t('survey.q_assistance.healthyFamilies') },
+        { value: "National School Lunch Program (NSLP) - Free Lunch", label: t('survey.q_assistance.nslp') },
+        { value: "Food Stamps/SNAP", label: t('survey.q_assistance.snap') },
+        { value: "Low Income Home Energy Assistance Program (LIHEAP)", label: t('survey.q_assistance.liheap') },
+        { value: "Head Start Income Eligible (Tribal Only)", label: t('survey.q_assistance.headStart') },
+        { value: "Supplemental Security Income (SSI)", label: t('survey.q_assistance.ssi') },
+        { value: "Bureau of Indian Affairs General Assistance", label: t('survey.q_assistance.bia') },
+        { value: "Temporary Assistance for Needy Families (TANF) or Tribal TANF", label: t('survey.q_assistance.tanf') }
+      ]
+    }
+  ];
+
   const currentQuestion = questions[currentIndex];
 
-  const handleSelect = (option) => {
-    setAnswers({ ...answers, [currentQuestion.id]: option });
+  const handleSelect = (optionValue) => {
+    setAnswers({ ...answers, [currentQuestion.id]: optionValue });
   };
 
-  const handleCheckboxToggle = (option) => {
+  const handleCheckboxToggle = (optionValue) => {
     const currentSelections = answers[currentQuestion.id] || [];
-    let newSelections = currentSelections.includes(option)
-      ? currentSelections.filter(item => item !== option)
-      : [...currentSelections, option];
+    let newSelections = currentSelections.includes(optionValue)
+      ? currentSelections.filter(item => item !== optionValue)
+      : [...currentSelections, optionValue];
     setAnswers({ ...answers, [currentQuestion.id]: newSelections });
   };
 
@@ -65,7 +94,6 @@ export default function Survey({ onCancel, onComplete }) {
     } else {
       setIsLoading(true);
       try {
-
         const BACKEND_URL = "https://central-valley-energy-navigator.onrender.com";
         
         const payload = {
@@ -85,7 +113,7 @@ export default function Survey({ onCancel, onComplete }) {
         onComplete(result); 
       } catch (error) {
         console.error("Error:", error);
-        alert("The server is waking up. Please wait a few seconds and try clicking 'See Results' again.");
+        alert(t('survey.alert'));
       } finally {
         setIsLoading(false);
       }
@@ -104,7 +132,7 @@ export default function Survey({ onCancel, onComplete }) {
     <div className="survey-container">
       <div className="progress-tracker">
         <p style={{ textTransform: 'uppercase', letterSpacing: '1px', color: '#666' }}>
-          Question {currentIndex + 1} of {questions.length}
+          {t('survey.progress', { current: currentIndex + 1, total: questions.length })}
         </p>
       </div>
 
@@ -113,14 +141,14 @@ export default function Survey({ onCancel, onComplete }) {
       {currentQuestion.type === 'checkbox' ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left', margin: '20px auto', maxWidth: '650px', fontSize: '1.15rem', color: '#333' }}>
           {currentQuestion.options.map((option) => (
-            <label key={option} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', lineHeight: '1.4' }}>
+            <label key={option.value} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', lineHeight: '1.4' }}>
               <input 
                 type="checkbox" 
-                checked={(answers[currentQuestion.id] || []).includes(option)}
-                onChange={() => handleCheckboxToggle(option)}
+                checked={(answers[currentQuestion.id] || []).includes(option.value)}
+                onChange={() => handleCheckboxToggle(option.value)}
                 style={{ marginTop: '4px', transform: 'scale(1.6)', cursor: 'pointer', accentColor: '#4A8B39' }} 
               />
-              <span>{option}</span>
+              <span>{option.label}</span>
             </label>
           ))}
         </div>
@@ -128,11 +156,11 @@ export default function Survey({ onCancel, onComplete }) {
         <div className="options-grid">
           {currentQuestion.options.map((option) => (
             <button
-              key={option}
-              className={`option-btn ${answers[currentQuestion.id] === option ? 'selected' : ''}`}
-              onClick={() => handleSelect(option)}
+              key={option.value}
+              className={`option-btn ${answers[currentQuestion.id] === option.value ? 'selected' : ''}`}
+              onClick={() => handleSelect(option.value)}
             >
-              {option}
+              {option.label}
             </button>
           ))}
         </div>
@@ -140,10 +168,10 @@ export default function Survey({ onCancel, onComplete }) {
 
       <div className="nav-buttons">
         <button className="secondary-btn" onClick={handlePrev} disabled={isLoading}>
-          {currentIndex === 0 ? 'Back to Home' : 'Previous'}
+          {currentIndex === 0 ? t('survey.backToHome') : t('survey.previous')}
         </button>
         <button className="primary-btn" onClick={handleNext} disabled={isNextDisabled || isLoading}>
-          {isLoading ? 'Processing...' : (currentIndex === questions.length - 1 ? 'See Results' : 'Next')}
+          {isLoading ? t('survey.processing') : (currentIndex === questions.length - 1 ? t('survey.seeResults') : t('survey.next'))}
         </button>
       </div>
     </div>

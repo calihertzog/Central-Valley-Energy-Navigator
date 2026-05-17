@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import Survey from './Survey';
 import logo from './assets/logo.png'; 
 import './App.css';
 
 function App() {
+  const { t, i18n } = useTranslation();
   const [isSurveyStarted, setIsSurveyStarted] = useState(false);
   const [surveyResults, setSurveyResults] = useState(null);
 
-  // This matches the data structure coming back from your Python main.py
   const handleSurveyComplete = (data) => {
     console.log("Calculated Results from Backend:", data);
     setSurveyResults(data);
@@ -18,28 +19,44 @@ function App() {
     setIsSurveyStarted(false);
   };
 
+  // Language Toggle Function
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'es' : 'en';
+    i18n.changeLanguage(newLang);
+  };
+
+  // Reusable language toggle button component
+  const LanguageToggle = () => (
+    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', padding: '10px' }}>
+      <button 
+        onClick={toggleLanguage} 
+        style={{ background: 'none', border: 'none', color: '#244D73', cursor: 'pointer', textDecoration: 'underline' }}
+      >
+        {i18n.language === 'en' ? 'Español' : 'English'}
+      </button>
+    </div>
+  );
+
   // --- View 1: Results Screen ---
   if (surveyResults) {
     return (
       <main className="container center-content">
+        <LanguageToggle />
         <img src={logo} alt="CRPE Logo" className="brand-logo" />
         
         <h2 style={{ color: '#244D73', marginTop: '20px' }}>
-          {surveyResults.eligible ? "You're Eligible!" : "Evaluation Complete"}
+          {surveyResults.eligible ? t('app.eligible') : t('app.complete')}
         </h2>
 
-        {/* Using the CSS class for layout, but keeping the dynamic border color inline */}
         <div 
           className="results-card" 
           style={{ borderLeft: `8px solid ${surveyResults.eligible ? '#4A8B39' : '#ccc'}` }}
         >
-          <p>
-            {surveyResults.message}
-          </p>
+          <p>{surveyResults.message}</p>
           
           {surveyResults.discount && (
             <div className="benefit-tag">
-              <strong>Benefit:</strong> {surveyResults.discount}
+              <strong>{t('app.benefit')}</strong> {surveyResults.discount}
             </div>
           )}
         </div>
@@ -47,11 +64,11 @@ function App() {
         <div style={{ display: 'flex', gap: '10px' }}>
           {surveyResults.eligible && (
             <button className="primary-btn" onClick={() => window.open('https://www.cpuc.ca.gov/care', '_blank')}>
-              Apply Now
+              {t('app.apply')}
             </button>
           )}
           <button className="secondary-btn" onClick={handleRestart}>
-            Start Over
+            {t('app.startOver')}
           </button>
         </div>
       </main>
@@ -62,6 +79,7 @@ function App() {
   if (isSurveyStarted) {
     return (
       <div className="container survey-active"> 
+        <LanguageToggle />
         <header>
           <img src={logo} alt="CRPE Logo" className="brand-logo" />
         </header>
@@ -76,23 +94,26 @@ function App() {
   // --- View 3: Welcome Screen ---
   return (
     <main className="container center-content">
+      <LanguageToggle />
       <header>
         <img src={logo} alt="CRPE Logo" className="brand-logo" />
-        <h1 style={{ color: '#244D73' }}>San Joaquin Valley Energy Assistance Navigator</h1>
+        <h1 style={{ color: '#244D73' }}>{t('app.title')}</h1>
       </header>
       
       <section className="intro-text">
         <p>
-          Kern and Tulare counties have some of the highest energy rates in the United States. 
-          California offers subsidy programs like <strong>CARE</strong> and <strong>FERA</strong> to help reduce your monthly bills.
+          <Trans i18nKey="app.intro1">
+            Kern and Tulare counties have some of the highest energy rates in the United States. 
+            California offers subsidy programs like <strong>CARE</strong> and <strong>FERA</strong> to help reduce your monthly bills.
+          </Trans>
         </p>
         <p>
-          Take the survey to see if you qualify for a discount of up to 35%.
+          {t('app.intro2')}
         </p>
       </section>
 
       <button className="primary-btn" onClick={() => setIsSurveyStarted(true)}>
-        Begin Survey
+        {t('app.begin')}
       </button>
     </main>
   );
