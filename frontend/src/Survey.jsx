@@ -6,6 +6,7 @@ export default function Survey({ onCancel, onComplete }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [resultData, setResultData] = useState(null); // Added state for backend results
 
   const questions = [
     {
@@ -110,7 +111,8 @@ export default function Survey({ onCancel, onComplete }) {
         if (!response.ok) throw new Error('Failed to fetch results');
 
         const result = await response.json();
-        onComplete(result); 
+        setResultData(result); // Set result to trigger the results view
+        if (onComplete) onComplete(result); 
       } catch (error) {
         console.error("Error:", error);
         alert(t('survey.alert'));
@@ -123,6 +125,46 @@ export default function Survey({ onCancel, onComplete }) {
   const handlePrev = () => {
     currentIndex > 0 ? setCurrentIndex(currentIndex - 1) : onCancel();
   };
+
+  // Render the results screen if data was successfully fetched
+  if (resultData) {
+    return (
+      <div className="survey-container">
+        <h2 className="question-text" style={{ textAlign: 'center' }}>
+          {resultData.eligible 
+            ? t('survey.eligible_title', 'Great news! You may be eligible.') 
+            : t('survey.ineligible_title', 'Eligibility Results')}
+        </h2>
+        
+        <div style={{ textAlign: 'center', margin: '30px auto', maxWidth: '650px', fontSize: '1.15rem', color: '#333' }}>
+          <p style={{ lineHeight: '1.6' }}>{t(resultData.messageKey)}</p>
+          
+          {resultData.eligible && (
+            <div style={{ 
+              marginTop: '30px', 
+              padding: '25px', 
+              backgroundColor: '#f0fdf4', 
+              border: '2px solid #4A8B39', 
+              borderRadius: '8px' 
+            }}>
+              <h3 style={{ color: '#4A8B39', fontSize: '1.5rem', margin: '0 0 10px 0' }}>
+                {resultData.program}
+              </h3>
+              <p style={{ margin: 0, fontWeight: 'bold' }}>
+                {t(resultData.discountKey)}
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="nav-buttons" style={{ justifyContent: 'center' }}>
+          <button className="primary-btn" onClick={onCancel}>
+            {t('survey.close', 'Close & Return Home')}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const isNextDisabled = currentQuestion.type === 'checkbox' 
     ? false 
