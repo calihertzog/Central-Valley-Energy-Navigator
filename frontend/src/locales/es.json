@@ -49,14 +49,14 @@
       "ssi": "Seguridad de Ingreso Suplementario (SSI)",
       "bia": "Asistencia General de la Oficina de Asuntos Indígenas",
       "tanf": "Asistencia Temporal para Familias Necesitadas (TANF) o TANF Tribal"
-    },
-    "results": {
-    "care_assistance_msg": "¡Usted califica para CARE a través de su inscripción en programas de asistencia pública!",
-    "care_income_msg": "Según sus ingresos y el tamaño de su hogar, ¡usted califica para CARE!",
-    "care_discount": "30-35% en electricidad y 20% en gas.",
-    "fera_income_msg": "¡Usted califica para el programa FERA!",
-    "fera_discount": "descuento potencial del 18% en su factura de electricidad.",
-    "ineligible_msg": "Es posible que no califique para CARE o FERA según las pautas de ingresos actuales."
     }
+  },
+  "results": {
+  "care_assistance_msg": "¡Usted califica para CARE a través de su inscripción en programas de asistencia pública!",
+  "care_income_msg": "Según sus ingresos y el tamaño de su hogar, ¡usted califica para CARE!",
+  "care_discount": "30-35% en electricidad y 20% en gas.",
+  "fera_income_msg": "¡Usted califica para el programa FERA!",
+  "fera_discount": "descuento potencial del 18% en su factura de electricidad.",
+  "ineligible_msg": "Es posible que no califique para CARE o FERA según las pautas de ingresos actuales."
   }
 }
