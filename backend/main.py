@@ -34,7 +34,8 @@ async def evaluate_eligibility(results: SurveyResults):
             "eligible": True,
             "program": "CARE",
             "messageKey": "care_assistance_msg",
-            "discountKey": "care_discount"
+            "discountKey": "care_discount",
+            "utility": results.utility
         }
 
     # 2. Income Mapping
@@ -61,7 +62,8 @@ async def evaluate_eligibility(results: SurveyResults):
             "eligible": True,
             "program": "CARE",
             "messageKey": "care_income_msg",
-            "discountKey": "care_discount"
+            "discountKey": "care_discount",
+            "utility": results.utility
         }
 
     # 4. FERA Income Limits (HHS of 3+ and specific electric utilities)
@@ -76,7 +78,8 @@ async def evaluate_eligibility(results: SurveyResults):
             "eligible": True,
             "program": "FERA",
             "messageKey": "fera_income_msg",
-            "discountKey": "fera_discount"
+            "discountKey": "fera_discount",
+            "utility": results.utility
         }
 
     # 5. Ineligible
@@ -84,7 +87,8 @@ async def evaluate_eligibility(results: SurveyResults):
         "eligible": False,
         "program": None,
         "messageKey": "ineligible_msg",
-        "discountKey": None
+        "discountKey": None,
+        "utility": results.utility
     }
 
 if __name__ == "__main__":

@@ -37,6 +37,35 @@ function App() {
     </div>
   );
 
+  // Helper function to map to the correct application URL
+  const getApplyUrl = (utility, program, lang) => {
+    if (utility === 'PG&E') {
+      if (program === 'FERA') {
+        return lang === 'es' 
+          ? 'https://www.pge.com/es/account/billing-and-assistance/financial-assistance/family-electric-rate-assistance-program-fera.html'
+          : 'https://www.pge.com/en/account/billing-and-assistance/financial-assistance/family-electric-rate-assistance-program-fera.html';
+      }
+      return lang === 'es'
+        ? 'https://www.pge.com/es/account/billing-and-assistance/financial-assistance/california-alternate-rates-for-energy-program.html'
+        : 'https://www.pge.com/en/account/billing-and-assistance/financial-assistance/california-alternate-rates-for-energy-program.html';
+    }
+
+    if (utility === 'Southern California Edison (SCE)') {
+      return lang === 'es'
+        ? 'https://www.sce.com/es/save-money/income-qualified-programs/care-fera'
+        : 'https://www.sce.com/save-money/income-qualified-programs/care-fera';
+    }
+
+    if (utility === 'SoCalGas') {
+      return lang === 'es'
+        ? 'https://www.socalgas.com/es/billing-payment/assistance-programs/california-alternate-rates-for-energy'
+        : 'https://www.socalgas.com/billing-payment/assistance-programs/california-alternate-rates-for-energy';
+    }
+
+    // Fallback for "Other / Unsure"
+    return 'https://www.cpuc.ca.gov/care';
+  };
+
   // --- View 1: Results Screen ---
   if (surveyResults) {
     return (
@@ -52,7 +81,6 @@ function App() {
           className="results-card" 
           style={{ borderLeft: `8px solid ${surveyResults.eligible ? '#4A8B39' : '#ccc'}` }}
         >
-          {/* We now pass the key from the backend into the translation function */}
           <p>{t(`results.${surveyResults.messageKey}`)}</p>
           
           {surveyResults.discountKey && (
@@ -64,7 +92,10 @@ function App() {
 
         <div style={{ display: 'flex', gap: '10px' }}>
           {surveyResults.eligible && (
-            <button className="primary-btn" onClick={() => window.open('https://www.cpuc.ca.gov/care', '_blank')}>
+            <button 
+              className="primary-btn" 
+              onClick={() => window.open(getApplyUrl(surveyResults.utility, surveyResults.program, i18n.language), '_blank')}
+            >
               {t('app.apply')}
             </button>
           )}
