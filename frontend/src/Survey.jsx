@@ -178,7 +178,8 @@ export default function Survey({ onCancel, onComplete }) {
               width: '100%', 
               maxWidth: '300px',
               borderRadius: '8px',
-              border: '2px solid #244D73'
+              border: '2px solid #244D73',
+              backgroundColor: 'white'
             }}
           />
         </div>
