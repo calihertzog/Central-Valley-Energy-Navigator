@@ -2,7 +2,7 @@
   "app": {
     "title": "San Joaquin Valley Energy Assistance Navigator",
     "intro1": "Kern and Tulare counties have some of the highest energy rates in the United States. California offers subsidy programs like <1>CARE</1> and <3>FERA</3> to help reduce your monthly bills.",
-    "intro2": "Take the survey to see if you qualify for a discount of up to 35%.",
+    "intro2": "Take the survey to see if you qualify for a discount.",
     "begin": "Begin Survey",
     "eligible": "You're Eligible!",
     "complete": "Evaluation Complete",

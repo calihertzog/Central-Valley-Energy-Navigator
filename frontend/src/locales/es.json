@@ -2,7 +2,7 @@
   "app": {
     "title": "Navegador de Asistencia Energética del Valle de San Joaquín",
     "intro1": "Los condados de Kern y Tulare tienen algunas de las tarifas de energía más altas de los Estados Unidos. California ofrece programas de subsidio como <1>CARE</1> y <3>FERA</3> para ayudar a reducir sus facturas mensuales.",
-    "intro2": "Complete la encuesta para ver si califica para un descuento de hasta el 35%.",
+    "intro2": "Complete la encuesta para ver si califica para un descuento.",
     "begin": "Comenzar Encuesta",
     "eligible": "¡Eres Elegible!",
     "complete": "Evaluación Completa",
