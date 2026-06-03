@@ -6,7 +6,7 @@ export default function Survey({ onCancel, onComplete }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [resultData, setResultData] = useState(null); // Added state for backend results
+  const [resultData, setResultData] = useState(null); 
 
   const questions = [
     {
@@ -21,16 +21,8 @@ export default function Survey({ onCancel, onComplete }) {
     {
       id: 'size',
       text: t('survey.q_size.text'),
-      options: [
-        { value: '1-2', label: '1-2' },
-        { value: '3', label: '3' },
-        { value: '4', label: '4' },
-        { value: '5', label: '5' },
-        { value: '6', label: '6' },
-        { value: '7', label: '7' },
-        { value: '8', label: '8' },
-        { value: 'more than 8', label: t('survey.q_size.moreThan8') }
-      ]
+      type: 'number',
+      placeholder: 'e.g. 4'
     },
     {
       id: 'utility',
@@ -45,16 +37,8 @@ export default function Survey({ onCancel, onComplete }) {
     {
       id: 'income',
       text: t('survey.q_income.text'),
-      options: [
-        { value: 'Under $42,300', label: t('survey.q_income.under') },
-        { value: '$42,300 - $53,300', label: '$42,300 - $53,300' },
-        { value: '$53,300 - $64,300', label: '$53,300 - $64,300' },
-        { value: '$64,300 - $75,300', label: '$64,300 - $75,300' },
-        { value: '$75,300 - $86,300', label: '$75,300 - $86,300' },
-        { value: '$86,300 - $97,300', label: '$86,300 - $97,300' },
-        { value: '$97,300 - $108,300', label: '$97,300 - $108,300' },
-        { value: 'Over $108,300', label: t('survey.q_income.over') }
-      ]
+      type: 'number',
+      placeholder: 'e.g. 50000'
     },
     {
       id: 'assistance',
@@ -180,7 +164,25 @@ export default function Survey({ onCancel, onComplete }) {
 
       <h2 className="question-text">{currentQuestion.text}</h2>
 
-      {currentQuestion.type === 'checkbox' ? (
+      {currentQuestion.type === 'number' ? (
+        <div style={{ textAlign: 'center', margin: '20px auto' }}>
+          <input 
+            type="number" 
+            min="1" // Prevents negative numbers or zero
+            placeholder={currentQuestion.placeholder} // Dynamically pulls placeholder
+            value={answers[currentQuestion.id] || ''}
+            onChange={(e) => handleSelect(e.target.value)}
+            style={{ 
+              padding: '12px', 
+              fontSize: '1.2rem', 
+              width: '100%', 
+              maxWidth: '300px',
+              borderRadius: '8px',
+              border: '2px solid #244D73'
+            }}
+          />
+        </div>
+      ) : currentQuestion.type === 'checkbox' ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left', margin: '20px auto', maxWidth: '650px', fontSize: '1.15rem', color: '#333' }}>
           {currentQuestion.options.map((option) => (
             <label key={option.value} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', lineHeight: '1.4' }}>

@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 import os
+import json
 
 app = FastAPI()
 
@@ -12,12 +13,55 @@ app.add_middleware(
     allow_origins=[
         "https://central-valley-energy-navigator.vercel.app",
         "http://localhost:3000",
-        "http://localhost:5173" # Added Vite default port just in case!
+        "http://localhost:5173" 
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# --- Load Configuration ---
+# Loads once on startup, preventing disk I/O bottlenecks on high traffic
+with open("data/decision_tree_config.json", "r") as config_file:
+    PROGRAM_CONFIG = json.load(config_file)
+
+def get_income_limits(program_id: str) -> dict:
+    """Helper to extract income limits from the loaded JSON config."""
+    for program in PROGRAM_CONFIG.get("programs", []):
+        if program.get("id") == program_id:
+            return program.get("eligibility_rules", {}).get("income_limits", {})
+    return {}
+
+# Cache the limits globally
+CARE_LIMITS = get_income_limits("care")
+FERA_LIMITS = get_income_limits("fera")
+
+
+def calculate_limit(size_input: str, limits: dict, per_person_addition: int) -> int:
+    """Calculates exact limits, handling households > 8 mathematically."""
+    # Handle original survey string if frontend hasn't been updated to number input yet
+    if size_input == "1-2":
+        return limits.get("1-2", 0)
+        
+    try:
+        size = int(size_input)
+    except ValueError:
+        # Fallback for the old "more than 8" string selection
+        if size_input == "more than 8":
+            size = 9 
+        else:
+            return limits.get(size_input, 0)
+            
+    # Return limits based on parsed size
+    if size <= 2:
+        return limits.get("1-2", 0)
+    elif size <= 8:
+        return limits.get(str(size), 0)
+    else:
+        # Dynamically calculate for massive households based on base size 8
+        base_limit = limits.get("8", 0)
+        return base_limit + ((size - 8) * per_person_addition)
+
 
 class SurveyResults(BaseModel):
     county: str
@@ -38,26 +82,16 @@ async def evaluate_eligibility(results: SurveyResults):
             "utility": results.utility
         }
 
-    # 2. Income Mapping
-    income_map = {
-        'Under $42,300': 42299,
-        '$42,300 - $53,300': 53300,
-        '$53,300 - $64,300': 64300,  
-        '$64,300 - $75,300': 75300,
-        '$75,300 - $86,300': 86300,
-        '$86,300 - $97,300': 97300,
-        '$97,300 - $108,300': 108300,
-        'Over $108,300': 108301
-    }
-    user_income = income_map.get(results.income, 999999)
+    # 2. Parse Exact Income
+    try:
+        user_income = float(results.income)
+    except ValueError:
+        # Fallback in case of unexpected input
+        user_income = 9999999
 
-    # 3. CARE Income Limits (2025-2026)
-    care_limits = {
-        "1-2": 42300, "3": 53300, "4": 64300, "5": 75300, 
-        "6": 86300, "7": 97300, "8": 108300, "more than 8": 119300
-    }
-    
-    if user_income <= care_limits.get(results.size, 0):
+    # 3. CARE Income Limits 
+    care_limit = calculate_limit(results.size, CARE_LIMITS, 11360)
+    if user_income <= care_limit:
         return {
             "eligible": True,
             "program": "CARE",
@@ -66,14 +100,11 @@ async def evaluate_eligibility(results: SurveyResults):
             "utility": results.utility
         }
 
-    # 4. FERA Income Limits (HHS of 3+ and specific electric utilities)
+    # 4. FERA Income Limits 
     is_electric_provider = results.utility in ['PG&E', 'Southern California Edison (SCE)']
-    fera_limits = {
-        "3": 66625, "4": 80375, "5": 94125, "6": 107875, 
-        "7": 121625, "8": 135375, "more than 8": 149125
-    }
+    fera_limit = calculate_limit(results.size, FERA_LIMITS, 14200)
 
-    if is_electric_provider and user_income <= fera_limits.get(results.size, 0):
+    if is_electric_provider and user_income <= fera_limit:
         return {
             "eligible": True,
             "program": "FERA",

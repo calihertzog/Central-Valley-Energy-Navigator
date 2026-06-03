@@ -61,7 +61,7 @@ function App() {
         ? 'https://www.socalgas.com/es/billing-payment/assistance-programs/california-alternate-rates-for-energy'
         : 'https://www.socalgas.com/billing-payment/assistance-programs/california-alternate-rates-for-energy';
     }
-
+    
     // Fallback for "Other / Unsure"
     return 'https://www.cpuc.ca.gov/care';
   };
