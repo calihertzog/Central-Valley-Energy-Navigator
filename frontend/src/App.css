@@ -29,7 +29,7 @@
   text-align: center;
 }
 
-/* This creates a fixed-size "bucket" for the logo so it never shifts the text */
+/* Fixed-size "bucket" for the logo so it never shifts the text */
 .survey-active header {
   height: 80px; 
   display: flex;
@@ -103,7 +103,7 @@ button {
 /* Logo size specifically when survey is active */
 .survey-active .brand-logo {
   max-width: 350px; 
-  margin: 0; /* Margin is now handled by the fixed header block */
+  margin: 0; 
   display: block;
 }
 
@@ -116,7 +116,7 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   display: block;
-  height: 20px; /* Locks the height of the tracker text */
+  height: 20px; 
 }
 
 .question-text {
@@ -124,7 +124,7 @@ button {
   margin-bottom: 0.5rem; 
   color: var(--crpe-black);
   line-height: 1.2;
-  min-height: 4rem; /* Holds space for up to 3 lines of text so buttons below don't jump */
+  min-height: 4rem; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,9 +192,9 @@ button:disabled {
 }
 
 .programs-list {
-  list-style-type: none; /* Removes the bullet points */
-  padding-left: 0;       /* Removes the default left indentation */
-  margin-top: 15px;      /* Optional: Adds a little breathing room above the list */
+  list-style-type: none; 
+  padding-left: 0;       
+  margin-top: 15px;      
 }
 
 .results-card {

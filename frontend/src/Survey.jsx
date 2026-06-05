@@ -95,7 +95,7 @@ export default function Survey({ onCancel, onComplete }) {
         if (!response.ok) throw new Error('Failed to fetch results');
 
         const result = await response.json();
-        setResultData(result); // Set result to trigger the results view
+        setResultData(result); 
         if (onComplete) onComplete(result); 
       } catch (error) {
         console.error("Error:", error);
